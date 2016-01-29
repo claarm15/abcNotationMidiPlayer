@@ -216,4 +216,18 @@ public class SongFile {
 	public ArrayList<String> getNoteLines() {
 		return noteLines;
 	}
+	
+	/**
+	 * Returns one String of the note lines from the SongFile Object.
+	 * 
+	 * @return -- ArrayList<String>
+	 */
+	public String getNotesAsString() {
+	    StringBuilder sb = new StringBuilder();
+		for (String line : noteLines) {
+			sb.append(line.trim()+ " ");
+		}
+		String notes = sb.toString();
+		return notes.trim();
+	}
 }

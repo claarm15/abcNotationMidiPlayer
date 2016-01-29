@@ -10,6 +10,11 @@ import org.junit.Test;
 import fileprocessing.InvalidSongFileException;
 import fileprocessing.SongFile;
 
+/*
+ * Most SongFile Tests are in the TestReadSongFile testing class 
+ * because it affected both classes.
+ */
+
 public class TestSonfFile {
 	private SongFile songFile;
 	@BeforeClass
@@ -36,4 +41,15 @@ public class TestSonfFile {
 		SongFile.Builder.tempo(1);
 		songFile = new SongFile.Builder().build();
 	}
+	
+	@Test
+	public void testSongFileReturnStringOfNotesThroughGetNotesAsString() throws InvalidSongFileException {
+		SongFile.Builder.initializeValues();
+		SongFile.Builder.tempo(1);
+		SongFile.Builder.addNoteLine("String one");
+		SongFile.Builder.addNoteLine("String two");
+		songFile = new SongFile.Builder().build();
+		assertTrue("String one String two".equals(songFile.getNotesAsString()));
+	}
+	
 }
