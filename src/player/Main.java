@@ -3,6 +3,9 @@ package player;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+
 import sound.*;
 import fileprocessing.*;
 
@@ -11,20 +14,24 @@ import fileprocessing.*;
  */
 public class Main {
 	public static void main(String[] args) {
-		String fileName = "/home/michael/workspace/MidiTester/sample_abc/scale.abc";
+		String fileName = "/home/michael/workspace/abcNotationMidiPlayer/sample_abc/scale.abc";
 		ReadSongFromFile readSong = ReadSongFromFile.getInstance();
+		SequenceLoader sl; 
 		try {
 			SongFile songFile = readSong.processFile(fileName);
-			System.out.println(songFile.getComposer());
-			System.out.println(songFile.getKey());
-			ArrayList<String> notes = songFile.getNoteLines();
-			for (String noteLine : notes) {
-				System.out.println("NoteLine: " + noteLine);
-			}
+			sl = new SequenceLoader(songFile.getTempo(),  songFile.getNotesAsString());
+			SequencePlayer sp = sl.loadSequence();
+			sp.play();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidSongFileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidMidiDataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MidiUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -33,7 +40,7 @@ public class Main {
 //		try {
 //			SequencePlayer sequencePlayer = new SequencePlayer(140, 12);
 //			sequencePlayer.addNote(new Pitch('C').toMidiNote(), 1, 12);
-//			sequencePlayer.addNote(new Pitch('D').transpose(-1).toMidiNote(), 13, 12);
+//			sequencePlayer.addNote(new Pitch('C').transpose(0).toMidiNote(), 13, 12);
 //			sequencePlayer.addNote(new Pitch('C').toMidiNote(), 25, 9);
 //			sequencePlayer.addNote(new Pitch('D').toMidiNote(), 34, 3);
 //			sequencePlayer.addNote(new Pitch('E').toMidiNote(), 37, 12);
