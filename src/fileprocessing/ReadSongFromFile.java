@@ -67,6 +67,7 @@ public class ReadSongFromFile {
 	private void processLine(String line) throws InvalidSongFileException {
 		if (line.matches("^[CKLMQTXV]:.*$")) {
 			AddCategoryToSongFile(line);
+			AddSongLineToFile(line);
 		} else if (line.matches("[a-gzA-G0-9,:| \\[\\]\\/_^]*")) {
 			AddSongLineToFile(line);
 		} else {
