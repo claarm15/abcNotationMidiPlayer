@@ -1,0 +1,20 @@
+
+To handle directory differences, switch tests to 
+	Already done...		 
+	sample1,2,3, and scale all working properly.
+	
+	
+	Need to add songs the project had me translate and work on them next.
+		Triplets
+		3/4 /4 /3  work on those combinations and time them out.
+	
+	Need to work on parsing how many notes in a sequence and work out the timing
+	
+	Need an interface
+	
+	
+piece 1
+	C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | C/3 C/3 C/3 G/3 G/3 G/3 E/3 E/3 E/3 C/3 C/3 C/3 | G3/4 F/4 E3/4 D C2 |
+
+piece 2
+	 [F^e] [F^e] z [F^e] z [F^c] [F^e]2 | [GBg]2 z2 G2 z2 | c3 G z2 E2 | E A2 B B_2 A | (3Geg a32 b a | z e2 c d b3 |
