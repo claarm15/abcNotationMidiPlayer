@@ -17,11 +17,10 @@ import fileprocessing.*;
  */
 public class Main {
 	public static void main(String[] args) {
-		Path fileName = Paths.get("sample_abc/scale.abc");
+//		Path fileName = Paths.get("sample_abc/scale.abc");
 //		Path fileName = Paths.get("sample_abc/sample1.abc");
 //		Path fileName = Paths.get("sample_abc/sample2.abc");
-//		Path fileName = Paths.get("sample_abc/sample3.abc");
-//		Path fileName = Paths.get("sample_abc/sample3.abc");
+		Path fileName = Paths.get("sample_abc/sample3.abc");
 		ReadSongFromFile readSong = ReadSongFromFile.getInstance();
 		SequenceLoader sl; 
 		try {

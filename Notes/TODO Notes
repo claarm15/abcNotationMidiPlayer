@@ -1,8 +1,10 @@
+Just general note file... nothing precise or part of the code.  Just a place for me to keep track of my thoughts.
 
-To handle directory differences, switch tests to 
-	Already done...		 
+Already done...		 
 	sample1,2,3, and scale all working properly.
 	
+TODO
+	Remove /bin from git
 	
 	Need to add songs the project had me translate and work on them next.
 		Triplets
@@ -12,6 +14,7 @@ To handle directory differences, switch tests to
 	
 	Need an interface
 	
+	Combine TestPages to TestSuite so I can run them all at once.
 	
 piece 1
 	C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | C/3 C/3 C/3 G/3 G/3 G/3 E/3 E/3 E/3 C/3 C/3 C/3 | G3/4 F/4 E3/4 D C2 |
