@@ -64,7 +64,15 @@ class Note {
 		case "/2":
 			numTicks = 6;
 			break;
-
+		case "3/4":
+			numTicks = 9;
+			break;
+		case "/3":
+			numTicks = 4;
+			break;
+		case "/4":
+			numTicks = 3;
+			break;
 		default:
 			// throw not found exception?
 			break;
