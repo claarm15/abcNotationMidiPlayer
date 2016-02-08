@@ -35,7 +35,7 @@ public class SongFile {
 			key = "";
 			indexNuber = 0;
 			title = "";
-			tempo = -1;
+			tempo = 100;
 			meter= "";
 			length= "";
 		}

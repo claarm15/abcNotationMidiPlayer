@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 /**
  * 
  * @author Michael Claar
@@ -13,8 +17,9 @@ import java.io.IOException;
  *
  */
 public class ReadSongFromFile {
+	private Path fileName;
 	private SongFile songFile;
-	private String fileName;
+//	private String fileName;
 	private static ReadSongFromFile readSongFromFile = null;
 	/**
 	 * Generates an instance of this class.  Due to private constructor, this is the only
@@ -42,17 +47,19 @@ public class ReadSongFromFile {
 	 * @throws IOException  -- due to file handling
 	 * @throws InvalidSongFileException  -- custom exception to allow us to troubleshoot a bad file.
 	 */
-	public SongFile processFile(String fileName) throws IOException, InvalidSongFileException {
+	public SongFile processFile(Path fileName) throws IOException, InvalidSongFileException {
+		InputStream in = Files.newInputStream(fileName);
 		SongFile.Builder.initializeValues();
-		File file;
-		file = new File(fileName);
-		FileReader fileReader = new FileReader(file);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
+//		File file;
+//		file = new File(fileName);
+//		FileReader fileReader = new FileReader(file);
+//		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
 		String line;
 		while ((line = bufferedReader.readLine()) != null) {
 			processLine(line);
 		}
-		fileReader.close();
+//		fileReader.close();
 
 		return new SongFile.Builder().build();
 	}
@@ -68,7 +75,7 @@ public class ReadSongFromFile {
 		if (line.matches("^[CKLMQTXV]:.*$")) {
 			AddCategoryToSongFile(line);
 			AddSongLineToFile(line);
-		} else if (line.matches("[a-gzA-G0-9,:| \\[\\]\\/_^]*")) {
+		} else if (line.matches("[a-gzA-G0-9,:| \\[\\]\\/_^']*")) {
 			AddSongLineToFile(line);
 		} else {
 			AddNonMatchedLine(line);

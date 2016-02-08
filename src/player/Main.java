@@ -2,6 +2,9 @@ package player;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.NoSuchFileException;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
@@ -14,12 +17,16 @@ import fileprocessing.*;
  */
 public class Main {
 	public static void main(String[] args) {
-		String fileName = "/home/michael/workspace/abcNotationMidiPlayer/sample_abc/scale.abc";
+		Path fileName = Paths.get("sample_abc/scale.abc");
+//		Path fileName = Paths.get("sample_abc/sample1.abc");
+//		Path fileName = Paths.get("sample_abc/sample2.abc");
+//		Path fileName = Paths.get("sample_abc/sample3.abc");
+//		Path fileName = Paths.get("sample_abc/sample3.abc");
 		ReadSongFromFile readSong = ReadSongFromFile.getInstance();
 		SequenceLoader sl; 
 		try {
 			SongFile songFile = readSong.processFile(fileName);
-			sl = new SequenceLoader(songFile.getTempo(),  songFile.getNotesAsString());
+			sl = new SequenceLoader(songFile.getTempo(),  songFile.getNoteLines());
 			SequencePlayer sp = sl.loadSequence();
 			sp.play();
 		} catch (IOException e) {
