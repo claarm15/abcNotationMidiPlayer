@@ -14,7 +14,8 @@ public class SequenceLoader {
 	private ArrayList<String> songLines;
 	private int notesPerBeat;
 	private int v1RepeatPoint;
-
+	private int lastNoteDuration;
+	
 	public SequenceLoader(int tempo, ArrayList<String> songLines) throws MidiUnavailableException, InvalidMidiDataException {
 		startTick = 1;
 		notesPerBeat = 1;
@@ -22,13 +23,16 @@ public class SequenceLoader {
 		this.tempo = tempo;
 		this.songLines = songLines;
 		v1RepeatPoint = startTick;
+		lastNoteDuration = 0;
 	}
 
 	public SequencePlayer loadSequence() {
 		for (String songLine : songLines) {
 
 			if (songLine.matches("^[CKLMQTXV]:.*$")) {
-				if (songLine.matches("^[vV]: *1")) v1RepeatPoint = startTick;
+				if (songLine.matches("^[vV]: *1")) {
+					v1RepeatPoint = startTick;
+				}
 				else if (songLine.matches("^[vV]:.*")) startTick = v1RepeatPoint;
 			} else if (songLine.matches("[a-gzA-G0-9,:| \\[\\]\\/_^\\(']*")) {
 				processNotesInLine(songLine);
@@ -59,17 +63,20 @@ public class SequenceLoader {
 			System.out.println("NOTE CODE: " + noteCode);
 			//if in a chord, startTick stays the same...
 			if (noteCode.matches("\\[")) in_chord = true;
-			if (noteCode.matches("\\]")) in_chord = false;
+			if (noteCode.matches("\\]")) {
+				in_chord = false;
+				startTick += lastNoteDuration;
+			}
 			
 			if (noteCode.matches(".*[A-Ga-g].*")) {
 				Note note = new Note(noteCode);
-				
+				lastNoteDuration = note.getDuration();
 				int pitch = note.getPitch();
-				if (!in_chord) startTick += note.getDuration();
+				if (!in_chord) startTick += lastNoteDuration;
 				String noteLetter = note.getNoteLetter() + "";
-				if (!noteLetter.matches("[zZ]"))song.addNote(pitch, startTick, note.getDuration());
+				if (!noteLetter.matches("[zZ]"))song.addNote(pitch, startTick, lastNoteDuration);
 				System.out.println(note.getNoteLetter() + " pitch: " + note.getPitch() + "\tOctave:  " + note.getOctave() + "\t NumTicks: "
-						+ note.getDuration() + "\tstartTick: " + startTick );
+						+ lastNoteDuration + "\tstartTick: " + startTick );
 
 			}
 		}
@@ -95,7 +102,7 @@ public class SequenceLoader {
 			}
 			// Otherwise grab the note sequence
 			// get symbols before the letters
-			while (is_note && currentPosition < beatLength && beat.substring(currentPosition, currentPosition + 1).matches("[-^=]")) {
+			while (is_note && currentPosition < beatLength && beat.substring(currentPosition, currentPosition + 1).matches("[_^=]")) {
 				currentNote += beat.substring(currentPosition, currentPosition + 1);
 				currentPosition++;
 				somethingMatched = true;

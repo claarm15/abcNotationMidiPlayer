@@ -21,8 +21,8 @@ public class Main {
 //		Path fileName = Paths.get("sample_abc/sample1.abc");
 //		Path fileName = Paths.get("sample_abc/sample2.abc");
 //		Path fileName = Paths.get("sample_abc/sample3.abc");
-		Path fileName = Paths.get("sample_abc/piece1.abc");
-//		Path fileName = Paths.get("sample_abc/piece2.abc");
+//		Path fileName = Paths.get("sample_abc/piece1.abc");
+		Path fileName = Paths.get("sample_abc/piece2.abc");
 		ReadSongFromFile readSong = ReadSongFromFile.getInstance();
 		SequenceLoader sl; 
 		try {
