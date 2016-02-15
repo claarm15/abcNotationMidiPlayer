@@ -2,4 +2,5 @@ X:1
 T:piece 1
 K:C
 Q:200
-[^Fe] [^Fe] z [^Fe] z [^Fc] [^Fe]2 | [GBg]2 z2 G2 z2 | c3 G z2 E2 | E A2 B _B2 A | (3Geg a b/2 a/2 | z e2 c d b3 |
+
+[^F/2e/2] [F/2e/2] z/2 [F/2e/2] z/2 [F/2c/2] [Fe] | [GBg] z G z | c3/2 G/2 z E | E/2 A B _B/2 A | (3Geg a f/2 g/2 | z/2 e c/2 d/2 b3/2 |

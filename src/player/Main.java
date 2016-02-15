@@ -22,7 +22,13 @@ public class Main {
 //		Path fileName = Paths.get("sample_abc/sample2.abc");
 //		Path fileName = Paths.get("sample_abc/sample3.abc");
 //		Path fileName = Paths.get("sample_abc/piece1.abc");
-		Path fileName = Paths.get("sample_abc/piece2.abc");
+//		Path fileName = Paths.get("sample_abc/piece2.abc");
+		Path fileName = Paths.get("sample_abc/paddy.abc");
+//		Path fileName = Paths.get("sample_abc/fur_elise.abc");
+//		Path fileName = Paths.get("sample_abc/little_night_music.abc");
+//		Path fileName = Paths.get("sample_abc/invention.abc");
+//		Path fileName = Paths.get("sample_abc/debussy.abc");
+//		Path fileName = Paths.get("sample_abc/testing.abc");
 		ReadSongFromFile readSong = ReadSongFromFile.getInstance();
 		SequenceLoader sl; 
 		try {

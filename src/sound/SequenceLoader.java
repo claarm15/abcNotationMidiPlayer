@@ -15,8 +15,12 @@ public class SequenceLoader {
 	private int notesPerBeat;
 	private int v1RepeatPoint;
 	private int lastNoteDuration;
+	ArrayList<Note> sharpAndFlatNotes;
+	Measure measure;
 
 	public SequenceLoader(int tempo, ArrayList<String> songLines) throws MidiUnavailableException, InvalidMidiDataException {
+		sharpAndFlatNotes = new ArrayList<>();
+		measure = new Measure();
 		startTick = 1;
 		notesPerBeat = 1;
 		song = new SequencePlayer(tempo, 12);
@@ -28,13 +32,12 @@ public class SequenceLoader {
 
 	public SequencePlayer loadSequence() {
 		for (String songLine : songLines) {
-
 			if (songLine.matches("^[CKLMQTXV]:.*$")) {
 				if (songLine.matches("^[vV]: *1")) {
 					v1RepeatPoint = startTick;
 				} else if (songLine.matches("^[vV]:.*"))
 					startTick = v1RepeatPoint;
-			} else if (songLine.matches("[a-gzA-G0-9,:| \\[\\]\\/_^\\(']*")) {
+			} else if (songLine.matches("[a-gzA-G0-9,=:| \\[\\]\\/_^\\(']*")) {
 				processNotesInLine(songLine);
 			} else {
 				/**
@@ -47,6 +50,7 @@ public class SequenceLoader {
 	}
 
 	private void processNotesInLine(String line) {
+
 		String[] notesSplitByBeat = line.split(" ");
 		for (int i = 0; i < notesSplitByBeat.length; i++) {
 			String beat = notesSplitByBeat[i];
@@ -57,26 +61,36 @@ public class SequenceLoader {
 	}
 
 	private void processNotesInBeat(String beat) {
+
 		boolean in_chord = false;
 		int tupletSpec = 1;
 		int tupletCount = 0;
 		ArrayList<String> notes = splitBeatIntoNotes(beat);
 		for (String noteCode : notes) {
-			System.out.println("NOTE CODE: " + noteCode);
 			// if in a chord, startTick stays the same...
-			if (noteCode.matches("\\["))
+			if (noteCode.matches("\\[")) {
 				in_chord = true;
+			startTick += lastNoteDuration;
+		}
 			if (noteCode.matches("\\]")) {
 				in_chord = false;
-				startTick += lastNoteDuration;
 			}
+			//handle triplets
 			if (noteCode.matches("\\(\\d")) {
 				tupletCount = Integer.parseInt(noteCode.substring(1));
 				tupletSpec = tupletCount;
 			}
-
-			if (noteCode.matches(".*[A-Ga-g].*")) {
+			if (noteCode.matches("|")) {
+				measure.reset();
+			}
+			
+			//ok we have a note to process
+			if (noteCode.matches(".*[A-Ga-gzZ].*")) {
+				
 				Note note = new Note(noteCode);
+				if (measure.hasSharpsOrFlats() && measure.matchesNote(note)) {
+					measure.augmentNote(note);
+				}
 				lastNoteDuration = note.getDuration() / tupletSpec;
 				if (tupletCount > 0) tupletCount--;
 				else tupletSpec = 1;
@@ -84,6 +98,7 @@ public class SequenceLoader {
 				if (!in_chord) startTick += lastNoteDuration;
 				String noteLetter = note.getNoteLetter() + "";
 				if (!noteLetter.matches("[zZ]")) song.addNote(pitch, startTick, lastNoteDuration);
+				measure.addNote(note);
 				System.out.println(note.getNoteLetter() + " pitch: " + note.getPitch() + "\tOctave:  " + note.getOctave() + "\t NumTicks: " + lastNoteDuration
 						+ "\tstartTick: " + startTick);
 
@@ -92,6 +107,7 @@ public class SequenceLoader {
 	}
 
 	private ArrayList<String> splitBeatIntoNotes(String wholeBeat) {
+		
 		// so I can break into parts..
 		String beat = wholeBeat;
 		ArrayList<String> notes = new ArrayList<>();

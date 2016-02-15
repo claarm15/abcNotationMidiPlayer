@@ -1,14 +1,10 @@
 Just general note file... nothing precise or part of the code.  Just a place for me to keep track of my thoughts.
 
 Already done...		 
-	sample1,2,3, and scale all working properly.
+	sample1,2,3,scale, and piece1 all working properly.
 	
 TODO
 	Remove /bin from git
-	
-	Need to add songs the project had me translate and work on them next.
-		Triplets
-		3/4 /4 /3  work on those combinations and time them out.
 	
 	Need to work on parsing how many notes in a sequence and work out the timing
 	

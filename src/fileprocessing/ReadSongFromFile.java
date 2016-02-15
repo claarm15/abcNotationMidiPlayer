@@ -75,7 +75,7 @@ public class ReadSongFromFile {
 		if (line.matches("^[CKLMQTXV]:.*$")) {
 			AddCategoryToSongFile(line);
 			AddSongLineToFile(line);
-		} else if (line.matches("[a-gzA-G0-9,:|\\( \\[\\]\\/_^']*")) {
+		} else if (line.matches("[a-gzA-G0-9,=:|\\( \\[\\]\\/_^']*")) {
 			AddSongLineToFile(line);
 		} else {
 			AddNonMatchedLine(line);
