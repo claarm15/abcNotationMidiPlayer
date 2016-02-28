@@ -1,0 +1,19 @@
+Just general note file... nothing precise or part of the code.  Just a place for me to keep track of my thoughts.
+
+Already done...		 
+	sample1,2,3,scale, and piece1 all working properly.
+	
+TODO
+	Remove /bin from git
+	
+	Need to work on parsing how many notes in a sequence and work out the timing
+	
+	Need an interface
+	
+	Combine TestPages to TestSuite so I can run them all at once.
+	
+piece 1
+	C C C3/4 D/4 E | E3/4 D/4 E3/4 F/4 G2 | C/3 C/3 C/3 G/3 G/3 G/3 E/3 E/3 E/3 C/3 C/3 C/3 | G3/4 F/4 E3/4 D C2 |
+
+piece 2
+	 [F^e] [F^e] z [F^e] z [F^c] [F^e]2 | [GBg]2 z2 G2 z2 | c3 G z2 E2 | E A2 B B_2 A | (3Geg a32 b a | z e2 c d b3 |
