@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 abstract class NoteSequence {
-	ArrayList<Note> measure;
+	protected ArrayList<Note> notes;
 	boolean hasSharpsOrFlats;
 	int foundPosition;
 
 	public NoteSequence() {
-		measure = new ArrayList<Note>();
+		notes = new ArrayList<Note>();
 		hasSharpsOrFlats = false;
 		foundPosition = -1;
 	}
 
 	public void addNote(Note note) {
-		measure.add(note);
+		notes.add(note);
 		if (note.isSharpOrFlat()) {
 			hasSharpsOrFlats = true;
 		}
 	}
 
 	public void reset() {
-		measure = new ArrayList<Note>();
+		notes = new ArrayList<Note>();
 		hasSharpsOrFlats = false;
 		foundPosition = -1;
 	}

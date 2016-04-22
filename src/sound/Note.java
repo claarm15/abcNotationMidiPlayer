@@ -9,6 +9,7 @@ class Note {
 	private int duration;
 	private HashMap<String, Integer> noteDetails;
 	private static Measure currentMeasure;
+	private int currentPosition;
 
 	public Note(String note, int tupletRate, Measure currentMeasure) {
 		this.note = note;
@@ -16,7 +17,9 @@ class Note {
 		duration = DurationCalculator.findDuration(note) / tupletRate;
 		noteDetails = processPitch(note);
 	}
-
+	public void  setCurrentPosition(int currentPosition) {
+		this.currentPosition = currentPosition;
+	}
 	public int getHasAugment() {
 		return noteDetails.get("hasAugment").intValue();
 	}
@@ -145,5 +148,8 @@ class Note {
 				result = -1;
 		}
 		return result;
+	}
+	public int getCurrentPosition() {
+		return currentPosition;
 	}
 }

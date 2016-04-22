@@ -3,7 +3,7 @@ package sound;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Measure extends NoteSequence {
+class Measure extends NoteSequence {
 	
 
 	public Measure() {
@@ -13,10 +13,10 @@ public class Measure extends NoteSequence {
 	public int returnPitchOfPreviousMatchingNote(char noteLetter, int octave) {
 		int result = 0;
 		int findPosition = -1;
-		for (int i = measure.size() - 1; i >= 0; i--) {
-			if (measure.get(i).getNoteLetter() == noteLetter &&
-					measure.get(i).getOctave() == octave) {
-				result = measure.get(i).getPitch();
+		for (int i = notes.size() - 1; i >= 0; i--) {
+			if (notes.get(i).getNoteLetter() == noteLetter &&
+					notes.get(i).getOctave() == octave) {
+				result = notes.get(i).getPitch();
 				break;
 			}
 		}

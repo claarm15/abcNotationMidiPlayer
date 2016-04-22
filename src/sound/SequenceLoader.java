@@ -15,6 +15,7 @@ public class SequenceLoader {
 	private int notesPerBeat;
 	private int v1RepeatPoint;
 	private int lastNoteDuration;
+	private RepeatTracking repeatTracking;
 	ArrayList<Note> sharpAndFlatNotes;
 	ArrayList<ArrayList<Measure>> repeatLoops = new ArrayList();
 	Measure currentMeasure;
@@ -23,6 +24,7 @@ public class SequenceLoader {
 			throws MidiUnavailableException, InvalidMidiDataException {
 		sharpAndFlatNotes = new ArrayList<>();
 		currentMeasure = new Measure();
+//		repeatTracking = new RepeatTracking();
 		startTick = 1;
 		notesPerBeat = 1;
 		song = new SequencePlayer(tempo, 12);
@@ -66,19 +68,18 @@ public class SequenceLoader {
 			} else if (noteCode.matches("\\(\\d")) { // handle triplets
 				tupletCount = Integer.parseInt(noteCode.substring(1));
 				tupletSpec = tupletCount;
-			} else if (noteCode.equals("|"))
+			} else if (noteCode.equals("|")) {
 				currentMeasure.reset();
-			else if (noteCode.equals("|:") || noteCode.matches("\\[\\d")) {
-				;// repeat stuff
-			} else if (noteCode.equals("|:")) {
-				;// end repeat stuff
+//			} else if (noteCode.equals("|:") || noteCode.matches("\\[\\d")) {
+//				repeatTracking.startRecording(startTick);
+//			} else if (noteCode.equals(":|")) {
+//				repeatTracking.stopRecording(startTick);
+//				addNotesToSong();
 			}
 			// ok we have a note to process
 			if (noteCode.matches(".*[A-Ga-gzZ].*")) {
-
 				// Note note = new Note(noteCode);
 				Note note = new Note(noteCode, tupletSpec, currentMeasure);
-
 				lastNoteDuration = note.getDuration();
 				if (tupletCount > 0)
 					tupletCount--;
@@ -86,26 +87,38 @@ public class SequenceLoader {
 					tupletSpec = 1;
 				if (!inChord)
 					startTick += lastNoteDuration;
+				note.setCurrentPosition(startTick);
 				String noteLetter = "" + note.getNoteLetter();
-				if (!noteLetter.matches("[zZ]"))
+				if (!noteLetter.matches("[zZ]")) {
 					song.addNote(note.getPitch(), startTick, lastNoteDuration + 1);
+//					System.out.println("Repeat Tracking: " + repeatTracking.isRecordingOn());
+//					if (repeatTracking.isRecordingOn() && startTick > repeatTracking.getStartPosition()) {
+//						repeatTracking.addNote(note);
+//					}
+				}
 				currentMeasure.addNote(note); // move to Note Class
 				System.out.println(note.getNoteLetter() + " pitch: " + note.getPitch() + "\tOctave: " + note.getOctave()
 						+ "\t NumTicks: " + lastNoteDuration + "\tstartTick: " + startTick);
-
 			}
 		}
 	}
 
-	private ArrayList<String> splitLineIntoNotes(String wholeLine) {
+	private void addNotesToSong() {
+		int difference = repeatTracking.getDifference() + 1;
+		while (repeatTracking.hasNote()) {
+			Note note = repeatTracking.popNote();
+			song.addNote(note.getPitch(), note.getCurrentPosition() + difference, note.getDuration());
+			lastNoteDuration = note.getDuration();
+		}
+		startTick = repeatTracking.getEndPosition() + difference + lastNoteDuration + 1;
+		repeatTracking.reset();
+	}
 
-		// so I can break into parts..
+	private ArrayList<String> splitLineIntoNotes(String wholeLine) {
 		String line = wholeLine.replaceAll(" ", "");
 		ArrayList<String> notes = new ArrayList<>();
-
 		int currentPosition = 0;
 		int lineLength = line.length();
-
 		/*
 		 * I'm using the lexer for the symbols as opposed to the notes. The
 		 * notes seems to have to many possibilities for a large matching loop
@@ -119,6 +132,7 @@ public class SequenceLoader {
 			boolean somethingMatched = false;
 			boolean isNote = true;
 			String currentNote = "";
+			//If the line starts with a non note symbol.
 			if (line.substring(currentPosition, currentPosition + 1).matches("[|:\\[\\]]")) {
 				// get 2 chars but make sure it doesn't go over the string
 				// length
@@ -165,5 +179,4 @@ public class SequenceLoader {
 		}
 		return notes;
 	}
-
 }
